@@ -57,17 +57,17 @@ namespace Common
 	public class MsgConnectionInfoData
 	{
 		public string? clientId { get; set; } = string.Empty;
-        public string? accountId { get; set; } = string.Empty;
-        public string? contactId { get; set; } = string.Empty;
+		public string? accountId { get; set; } = string.Empty;
+		public string? contactId { get; set; } = string.Empty;
 		public string? accountType { get; set; } = string.Empty;
-        public string? jwtToken { get; set; } = string.Empty;
-        public string? hash { get; set; } = string.Empty;
-    }
+		public string? jwtToken { get; set; } = string.Empty;
+		public string? hash { get; set; } = string.Empty;
+	}
 
 
-    public class MsgClientIdData
+	public class MsgClientIdData
 	{
-		public string clientId { get; set; } = string.Empty;	
+		public string clientId { get; set; } = string.Empty;
 	}
 
 	public class ResponseData
@@ -178,7 +178,7 @@ namespace Common
 
 	public class MsgGetObservedContactsDataResponse
 	{
-		public List<AccountContactInfo> contacts { get; set; } = new List<AccountContactInfo>();	
+		public List<AccountContactInfo> contacts { get; set; } = new List<AccountContactInfo>();
 		public string favoriteContactId { get; set; } = string.Empty;
 	}
 
@@ -227,9 +227,18 @@ namespace Common
 		public string accountId { get; set; } = string.Empty;
 		public string contactId { get; set; } = string.Empty;
 
-		public string deviceId { get; set; } = string.Empty;	
+		public string deviceId { get; set; } = string.Empty;
 		public List<Property> tags { get; set; } = new List<Property>();
 	}
+
+	public class MsgRenameDeviceTag
+	{
+		public string accountId { get; set; } = string.Empty;
+		public string contactId { get; set; } = string.Empty;
+		public string oldTagName { get; set; } = string.Empty;
+		public string newTagName { get; set; } = string.Empty;
+	}
+
 
 	public class MsgMoveTagData
 	{
@@ -408,12 +417,12 @@ namespace Common
 		public List<HygieneHash> hygieneHashes { get; set; } = new List<HygieneHash>();
 	}
 
-    public class TuStringResponse
-    {
-        public string response { get; set; } = string.Empty;
-    }
+	public class TuStringResponse
+	{
+		public string response { get; set; } = string.Empty;
+	}
 
-    public class MsgSyncHygieneReports
+	public class MsgSyncHygieneReports
 	{
 		public string deviceId { get; set; } = string.Empty;
 		public List<HygieneReportData> reports { get; set; } = new List<HygieneReportData>();
@@ -491,7 +500,7 @@ namespace Common
 
 	public class SaveHygienePlanOnDeviceData
 	{
-		public HygienePlan? hygienePlan { get; set; } = new HygienePlan();
+		public HygienePlan? hygienePlan { get; set; } = null;
 	}
 
 	public class MsgContactData
@@ -518,7 +527,7 @@ namespace Common
 
 	public class MsgGetContactbyIdResponse
 	{
-		public AccountContactInfo? accountContactInfo { get; set; }	= new AccountContactInfo();
+		public AccountContactInfo? accountContactInfo { get; set; } = new AccountContactInfo();
 	}
 
 	public class MsgGetTuConfigData
@@ -622,17 +631,17 @@ namespace Common
 		public string contactContactId { get; set; } = string.Empty;
 	}
 
-    public class MsgSetContactProperties
+	public class MsgSetContactProperties
 	{
-        public string accountId { get; set; } = string.Empty;
-        public string contactId { get; set; } = string.Empty;
-        public string contactContactId { get; set; } = string.Empty;
+		public string accountId { get; set; } = string.Empty;
+		public string contactId { get; set; } = string.Empty;
+		public string contactContactId { get; set; } = string.Empty;
 
 		public bool isFavorite { get; set; }
 		public bool hasAccess { get; set; }
-    }
+	}
 
-    public class MsgSetContactProperty
+	public class MsgSetContactProperty
 	{
 		public string accountId { get; set; } = string.Empty;
 		public string contactId { get; set; } = string.Empty;
@@ -668,25 +677,25 @@ namespace Common
 	}
 
 
-    public class MsgSetActiveOffice //for technician to set the observed office (events are passed to that client)
+	public class MsgSetActiveOffice //for technician to set the observed office (events are passed to that client)
 	{
 		public string accountId { get; set; } = string.Empty;
 		public string contactId { get; set; } = string.Empty;
 	}
 
-    public class MsgGetLoginDates
+	public class MsgGetLoginDates
 	{
-        public string contactId { get; set; } = string.Empty;
-    }
-    
+		public string contactId { get; set; } = string.Empty;
+	}
 
-    public class MsgEnableDeviceActivation
+
+	public class MsgEnableDeviceActivation
 	{
 		public string? deviceId { get; set; } = string.Empty;
-        public bool? whitelist { get; set; } = true;
-        public string? reason { get; set; } = string.Empty;
-        
-    }
+		public bool? whitelist { get; set; } = true;
+		public string? reason { get; set; } = string.Empty;
+
+	}
 
 	public class MqttMsgGetDeviceMessageList
 	{
@@ -695,16 +704,21 @@ namespace Common
 	}
 
 	public class MsgSetDeviceMqttRootData
-    {
+	{
 		public string deviceId { get; set; } = string.Empty;
-		public string mode {  get; set; } = string.Empty;
+		public string mode { get; set; } = string.Empty;
 		public string secret { get; set; } = string.Empty;
 	}
 
 	public class StartLiveResponseData
 	{
-        public ResponseCode responseCode { get; set; } = ResponseCode.ok;
-        public string responseText { get; set; } = string.Empty;
-        public string deviceId { get; set; } = string.Empty;
-    }
+		public ResponseCode responseCode { get; set; } = ResponseCode.ok;
+		public string responseText { get; set; } = string.Empty;
+		public string deviceId { get; set; } = string.Empty;
+	}
+
+    public class EventOfficeChangedData
+    {
+		public Office? office { get; set; }	
+	}
 }

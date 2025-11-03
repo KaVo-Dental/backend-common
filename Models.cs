@@ -307,7 +307,7 @@ namespace Common
         public List<Notification>? hygieneNotifications { get; set; } = new List<Notification>();
 
 
-        public bool? isInUse { get; set; }
+        public bool? isInUse { get; set; } = null;
         public string? usedBy { get; set; } //user id
 
 
@@ -492,7 +492,7 @@ namespace Common
                 this.footControlBatteryStatus = entry.footControlBatteryStatus;
             }
 
-            if (copyNullValues || this.serviceInterval != null)
+            if (copyNullValues || entry.serviceInterval != null)
             {
                 anyValueChanged = true;
                 this.serviceInterval = entry.serviceInterval;
@@ -812,6 +812,7 @@ namespace Common
         public string lasteditorAccountId { get; set; } = string.Empty;
         public string lasteditorContactId { get; set; } = string.Empty;
         public string text { get; set; } = string.Empty;
+        public string? author { get; set; }
     }
 
 
