@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Net;
 using System.Text;
 using System.Text.Json;
@@ -101,7 +102,7 @@ namespace Common
 		public string contactId { get; set; } = string.Empty;
 	}
 
-	public class MsgGetDeviceIdsDataResponse
+    public class MsgGetDeviceIdsDataResponse
 	{
 		public string accountId { get; set; } = string.Empty;
 		public string contactId { get; set; } = string.Empty;
@@ -110,8 +111,21 @@ namespace Common
 		public List<string> deviceIds { get; set; } = new List<string>();
 	}
 
+    public class MsgGetDevicesData
+    {
+        public string accountId { get; set; } = string.Empty;
+        public string contactId { get; set; } = string.Empty;
+    }
 
-	public class MsgRegisterAsOwnerData
+    public class MsgGetDevicesDataResponse
+    {
+        public string accountId { get; set; } = string.Empty;
+        public string contactId { get; set; } = string.Empty;
+		public List<Device> devices { get; set; } = new List<Device>();
+    }
+
+
+    public class MsgRegisterAsOwnerData
 	{
 		public string accountId { get; set; } = string.Empty;
 		public string contactId { get; set; } = string.Empty;
@@ -471,7 +485,20 @@ namespace Common
 		public List<string> hyginePlanIds { get; set; } = new List<string>();
 	}
 
-	public class MsgAssignHygienePlan
+    public class MsgGetHygienePlansData
+    {
+        public string accountId { get; set; } = string.Empty;
+        public string contactId { get; set; } = string.Empty;
+    }
+
+    public class MsgGetHygienePlanDataResponse
+    {
+        public string accountId { get; set; } = string.Empty;
+        public string contactId { get; set; } = string.Empty;
+        public List<GetHygienePlanAccData> hygienePlans { get; set; } = new List<GetHygienePlanAccData>();
+    }
+
+    public class MsgAssignHygienePlan
 	{
 		public string accountId { get; set; } = string.Empty;
 		public string contactId { get; set; } = string.Empty;
@@ -721,4 +748,18 @@ namespace Common
     {
 		public Office? office { get; set; }	
 	}
+
+	public class MsgSetTuImage
+	{
+		public string? deviceId { get; set; }
+		public string? screenType { get; set; }
+		public string? upholsteryType { get; set; }
+		public string? upholsteryColor {  get; set; }
+	}
+
+	public class MsgDeleteContactAccountData
+    {
+		public string? contactId { get; set; }
+	}
+        
 }
