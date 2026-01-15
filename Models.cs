@@ -214,15 +214,9 @@ namespace Common
 
     public class DeviceStatusHygieneState
     {
-        public int cleaningDisinfectionStateMajor;
-        public int cleaningDisinfectionStateMinor;
-        public int cleaningHygieneProgram;
-        public int cleaningHygieneProgress;
-        public int cleaningHygieneStepMajor;
-        public int cleaningHygieneStepMinor;
-        public int cleaningHygieneStepTime;
-        public int cleaningRinsingStateMajor;
-        public int cleaningRinsingStateMinor;
+        public bool? isInHygiene { get; set; }
+        public int? phase { get; set; }
+        public int? program {  get; set; }
     }
 
     public class Notification
@@ -276,6 +270,14 @@ namespace Common
         }
     }
 
+    public class Device
+    {
+        public string deviceId { get; set; }
+        public DeviceStatus? status { get; set; } = null;
+        public List<Property>? tags { get; set; } = null;
+        public DeviceInfoEntry? info { get; set; } = null;
+    }
+
 
     public class DeviceStatus
     {
@@ -283,49 +285,46 @@ namespace Common
         public string deviceId { get; set; } = string.Empty;
         
 
-        public bool? isOnline { get; set; } //if false, all other properties are not valid (=empty)
-        public DateTime? onlineTimeStartUtc { get; set; } //last time when device turned online
-        public DateTime? offlineTimeStartUtc { get; set; } //last time when device turned offline
-        public string? localIp { get; set; } // last local ip that the device reported
+        public bool? isOnline { get; set; } = null;//if false, all other properties are not valid (=empty)
+        public DateTime? onlineTimeStartUtc { get; set; } = null;//last time when device turned online
+        public DateTime? offlineTimeStartUtc { get; set; } = null;//last time when device turned offline
+        public string? localIp { get; set; } = null;// last local ip that the device reported
 
 
-        public bool? isInHygiene { get; set; } // true if a hygiene cycle is active
-        public DeviceStatusHygieneState? hygieneState { get; set; } // desciption of state 
-        public int? hygieneRemainingRestTime { get; set; } //seconds if intensive germ reduction rest phase is active
-        public string? hygieneCurrentCycle { get; set; } // current hygiene cycle if hygiene is active
+        public bool? isInHygiene { get; set; } = null;// true if a hygiene cycle is active
+        public DeviceStatusHygieneState? hygieneState { get; set; } = null;// desciption of state 
+        public int? hygieneRemainingRestTime { get; set; } = null;//seconds if intensive germ reduction rest phase is active
+        public string? hygieneCurrentCycle { get; set; } = null;// current hygiene cycle if hygiene is active
 
-        public DateTime? hygieneLastMorningCycle {  get; set; } //last completeted 'Morning Cycle' (UTC)
-        public DateTime? hygieneLastEveningCycle { get; set; } //last completeted 'Evening Cycle' (UTC)
-        public DateTime? hygieneLastWeeklyCycle { get; set; } //last completeted 'Weekly Cycle' (UTC)
-        public DateTime? hygieneLastAfterTreatmentCycle { get; set; } //last completeted 'After Treatment Cycle' (UTC)
-        public string? hygienePlanName { get; set; } // name of the hygiene plan (stored on the device!)
+        public DateTime? hygieneLastMorningCycle {  get; set; } = null;//last completeted 'Morning Cycle' (UTC)
+        public DateTime? hygieneLastEveningCycle { get; set; } = null;//last completeted 'Evening Cycle' (UTC)
+        public DateTime? hygieneLastWeeklyCycle { get; set; } = null;//last completeted 'Weekly Cycle' (UTC)
+        public DateTime? hygieneLastAfterTreatmentCycle { get; set; } = null;//last completeted 'After Treatment Cycle' (UTC)
+        public string? hygienePlanName { get; set; } = null;// name of the hygiene plan (stored on the device!)
 
 
-        public List<Notification>? criticalErrors { get; set; } = new List<Notification>();
-        public List<Notification>? notifications { get; set; } = new List<Notification>();
-        public List<Notification>? otherNotifications { get; set; } = new List<Notification>();//same category as notifications?
-        public List<Notification>? hygieneNotifications { get; set; } = new List<Notification>();
+        public List<Notification>? criticalErrors { get; set; } = null;
+        public List<Notification>? notifications { get; set; } = null;
+        public List<Notification>? otherNotifications { get; set; } = null;//same category as notifications?
+        public List<Notification>? hygieneNotifications { get; set; } = null;
 
 
         public bool? isInUse { get; set; } = null;
-        public string? usedBy { get; set; } //user id
+        public string? usedBy { get; set; } = null;
 
 
-        public int? dekaseptolStatus { get; set; }
-        public int? oxygenalStatus { get; set; }
-        public int? footControlBatteryStatus { get; set; }
-        public DateTime? serviceInterval { get; set; } //local time(!) of the device
-        public List<DeviceMessage> deviceMessageList { get; set; } = new List<DeviceMessage>(); // this is the message list from the device
-        public string? remotePin { get; set; }
+        public int? dekaseptolStatus { get; set; } = null;
+        public int? oxygenalStatus { get; set; } = null;
+        public int? footControlBatteryStatus { get; set; } = null;
+        public DateTime? serviceInterval { get; set; } = null;//local time(!) of the device
+        public List<DeviceMessage>? deviceMessageList { get; set; } = null; // this is the message list from the device
+        public string? remotePin { get; set; } = null;
 
-        public List<Property>? extendedStatusFields { get; set; } = new List<Property>();
+        public List<Property>? extendedStatusFields { get; set; } = null;
 
-        public Location? deviceLocation {  get; set; } = new Location();
+        public Location? deviceLocation {  get; set; } = null;
 
-        public bool? isWaterBottleSystem { get; set; } = false;
-
-        public List<Dictionary<string, bool>>? InstalledLicenses { get; set; }
-        
+        public bool? isWaterBottleSystem { get; set; } = null;
 
         public bool copyFrom(DeviceStatus entry, bool copyNullValues = false)
         {
@@ -511,9 +510,7 @@ namespace Common
                     anyValueChanged = true;
                 this.remotePin = entry.remotePin;
             }
-            
-
-
+           /* 
             if (copyNullValues && entry.extendedStatusFields == null)
             {
                 if (this.extendedStatusFields != null)
@@ -521,39 +518,50 @@ namespace Common
 
                 this.extendedStatusFields = null; //but why should we do this?
             }
-            else if (/*!copyNullValues &&*/ entry.extendedStatusFields != null)
+            else*/
+            if (copyNullValues || entry.extendedStatusFields != null)
             {
-                if (this.extendedStatusFields == null)
+                if (copyNullValues && entry.extendedStatusFields == null)
                 {
-                    anyValueChanged = true;
-                    this.extendedStatusFields = new List<Property>();
+                    this.extendedStatusFields = null;
                 }
-
-                for (int i = 0; i < entry.extendedStatusFields.Count; i++)
+                else
                 {
-                    Property p = entry.extendedStatusFields[i];
-                    bool found = false;
-                    foreach (Property p2 in this.extendedStatusFields)
-                    {
-                        if (p2.Name.Equals(p.Name))
-                        {
-                            if (p2.Attributes != p.Attributes)
-                                anyValueChanged = true;
-
-                            p2.Attributes = p.Attributes;
-                            found = true;
-                            break;
-                        }
-                    }
-
-                    if (!found)
+                    if (this.extendedStatusFields == null)
                     {
                         anyValueChanged = true;
-                        entry.extendedStatusFields.Add(new Property()
+                        this.extendedStatusFields = new List<Property>();
+                    }
+
+                    if (entry.extendedStatusFields != null)
+                    {
+                        for (int i = 0; i < entry.extendedStatusFields.Count; i++)
                         {
-                            Name = p.Name,
-                            Attributes = p.Attributes,
-                        });
+                            Property p = entry.extendedStatusFields[i];
+                            bool found = false;
+                            foreach (Property p2 in this.extendedStatusFields)
+                            {
+                                if (p2.Name.Equals(p.Name))
+                                {
+                                    if (p2.Attributes != p.Attributes)
+                                        anyValueChanged = true;
+
+                                    p2.Attributes = p.Attributes;
+                                    found = true;
+                                    break;
+                                }
+                            }
+
+                            if (!found)
+                            {
+                                anyValueChanged = true;
+                                entry.extendedStatusFields.Add(new Property()
+                                {
+                                    Name = p.Name,
+                                    Attributes = p.Attributes,
+                                });
+                            }
+                        }
                     }
                 }
             }
@@ -712,7 +720,53 @@ namespace Common
 			}
 				return true;
         }
-	}
+
+
+        public static HygienePlan sanitizePlan(HygienePlan plan)
+        {
+            foreach (TimePlan tp in plan.PlannedHygieneCycles)
+            {
+                tp.MorningHygiene = NormalizeTime(tp.MorningHygiene);
+                tp.EveningHygiene = NormalizeTime(tp.EveningHygiene);
+                tp.WeeklyHygiene = NormalizeTime(tp.WeeklyHygiene);
+
+                //only evening or weekly!
+                if (!string.IsNullOrWhiteSpace(tp.WeeklyHygiene) && !string.IsNullOrWhiteSpace(tp.EveningHygiene))
+                {
+                    tp.EveningHygiene = string.Empty;
+                }
+            }
+            return plan;
+        }
+    
+
+        private static string NormalizeTime(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return "";
+
+            // Prüfen, ob überhaupt Ziffern enthalten sind
+            if (!input.Any(char.IsDigit))
+                return "";
+
+            var parts = input.Split(':');
+            int hour = 0, minute = 0;
+
+            if (parts.Length >= 1 && int.TryParse(parts[0], out int h))
+                hour = h;
+            if (parts.Length >= 2 && int.TryParse(parts[1], out int m))
+                minute = m;
+
+            // Normalize values
+            if (hour < 0) hour = 0;
+            if (minute < 0) minute = 0;
+
+            if (hour > 23) hour = 0;       // Alles > 23 wird 0
+            if (minute > 59) minute = 59;  // Minuten > 59 werden 59
+
+            return $"{hour:D2}:{minute:D2}";
+        }
+    }
 
     public class DbHygienePlan
     {
@@ -845,15 +899,27 @@ namespace Common
     public class License
     {
         public string Name { get; set; } = string.Empty;
-        public bool isConfigured { get; set; }
-        public bool isInstalled { get; set; }
+        public bool? isConfigured { get; set; }
+        public bool? isInstalled { get; set; }
+    }
+
+    public class DeviceLicenses
+    {
+        public string id { get; set; } = string.Empty;
+        public List<License> licenses { get; set; } = new List<License>();
     }
 
     public class TuConfig
     {
         public string id { get; set; } = string.Empty;
+        public List<TuConfigEntry>? items { get; set; } = new List<TuConfigEntry>();
+        public List<License>? licenses { get; set; } = new List<License>();
+    }
+
+    public class TuConfiguration
+    {
+        public string id { get; set; } = string.Empty;
         public List<TuConfigEntry> items { get; set; } = new List<TuConfigEntry>();
-        public List<License> licenses { get; set; } = new List<License>();
     }
 
     public class DeviceNotes
@@ -880,5 +946,10 @@ namespace Common
         public string id => contactId;
         public string contactId { get; set; } = string.Empty;
         public List<DateTime> logindates { get; set; } = new List<DateTime>();
+    }
+
+    public class Base64Data
+    {
+        public string data { get; set; } = string.Empty;
     }
 }
