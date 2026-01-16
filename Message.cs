@@ -199,6 +199,17 @@ namespace Common
 		public string deviceId { get; set; } = string.Empty;
 	}
 
+	public class MsgGetAccountUserListData
+	{
+		public string accountId { get; set; } = string.Empty;
+		public string contactId { get; set; } = string.Empty;
+	}
+
+	public class MsgGetAccountUserListDataResponse
+	{
+		public string accountId { get; set; } = string.Empty;
+		public List<PortalUser> users { get; set; } = new List<PortalUser>();
+	}
 
 
 
