@@ -803,6 +803,8 @@ namespace Common
         public string phone_mobile { get; set; } = string.Empty;
         public string email { get; set; } = string.Empty;
         public bool? verifiedMail { get; set; }
+        public bool isVerified { get; set; } = false;
+        public bool isNotified { get; set; } = false;
 
 
         public DateTime LastLogIn { get; set; }
