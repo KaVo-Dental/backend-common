@@ -225,15 +225,13 @@ namespace Common
 		public List<PortalUser> users { get; set; } = new List<PortalUser>();
 	}
 
-	public class MsgSetConnectionInfoResponse
+	public class MsgVerifiedNotifiedResponse
 	{
 		public ResponseCode responseCode { get; set; } = new ResponseCode();
 		public string responseText { get; set; } = string.Empty;
 		public bool isVerified { get; set; } = false;
 		public bool isNotified { get; set; } = false;
     }
-
-
 
 
     public class MsgOwnOrObservedDeviceIds
