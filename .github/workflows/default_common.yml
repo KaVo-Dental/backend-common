@@ -2,9 +2,7 @@ name: Build & Deploy kvCore
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ '**' ]
 
 jobs:
     test:
