@@ -47,6 +47,11 @@ namespace Common
             get { return myContactId; }
             set { myContactId = value; }
         }
+        public string contactType
+        {
+            get { return myContactType; }
+            set { myContactType = value; }
+        }
 
 
         public void setAccountInfo(string accountId, string accountType, string contactId, bool isLogInGranted)
@@ -272,7 +277,7 @@ namespace Common
 
     public class Device
     {
-        public string deviceId { get; set; }
+        public required string deviceId { get; set; }
         public DeviceStatus? status { get; set; } = null;
         public List<Property>? tags { get; set; } = null;
         public DeviceInfoEntry? info { get; set; } = null;

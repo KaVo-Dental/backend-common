@@ -18,6 +18,5 @@ jobs:
                 submodules: recursive
                 fetch-depth: 0
 
-
             - name: Run tests
               run: dotnet test -c Release Common.Tests

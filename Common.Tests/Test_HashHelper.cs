@@ -1,13 +1,13 @@
 ﻿namespace Common.Tests;
 
-public class Test_ComputeHash
+public class Test_HashHelper
 {
     [Theory]
     [InlineData(null, "salt", "")]
     [InlineData("pin", null, "")]
     public void ComputeHash_ReturnsEmptyString_WhenInputIsNullOrEmpty(string? pin, string? salt, string expected)
     {
-        var result = HashHelper.ComputeHash(pin, salt);
+        var result = HashHelper.ComputeHash(pin!, salt!);
 
         Assert.Equal(expected, result);
     }
