@@ -10,4 +10,11 @@
     <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.82" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Common.Tests/**/*.cs" />
+    <None Remove="Common.Tests/**" />
+    <Content Remove="Common.Tests/**" />
+    <EmbeddedResource Remove="Common.Tests/**" />
+  </ItemGroup>
+
 </Project>
