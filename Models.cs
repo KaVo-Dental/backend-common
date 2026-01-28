@@ -1,16 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json.Nodes;
-using System.Text.Json;
-using System.Dynamic;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
-using System.Data;
+using System.Threading.Tasks;
 
 namespace Common
 {
@@ -170,7 +170,7 @@ namespace Common
         public string accountId { get; set; } = string.Empty;
         public string contactId { get; set; } = string.Empty;
         public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; } 
+        public DateTime endDate { get; set; }
         public string authAccountId { get; set; } = string.Empty;
         public string authContactId { get; set; } = string.Empty;
     }
@@ -191,7 +191,7 @@ namespace Common
         public string deviceSerialNumber { get; set; } = string.Empty;
         public string firmwareVersionSet { get; set; } = string.Empty;
         public List<Property>? extendedInfos { get; set; } = new List<Property>(); // additional Device Information can be stored here (example LocalIp etc.)
-        public Dictionary<string,bool>? licenses { get; set; } = new Dictionary<string,bool>();
+        public Dictionary<string, bool>? licenses { get; set; } = new Dictionary<string, bool>();
         public void copyFrom(DeviceInfoEntry entry, bool overwriteExtentedInfo = true)
         {
             this.id = entry.id;
@@ -211,7 +211,7 @@ namespace Common
                 }
             }
 
-            if (overwriteExtentedInfo && entry!=null && entry.extendedInfos!=null)
+            if (overwriteExtentedInfo && entry != null && entry.extendedInfos != null)
                 this.extendedInfos = new List<Property>(entry.extendedInfos); //create a copy of the old list //todo: check: better merge into existing list?
         }
     }
@@ -221,7 +221,7 @@ namespace Common
     {
         public bool? isInHygiene { get; set; }
         public int? phase { get; set; }
-        public int? program {  get; set; }
+        public int? program { get; set; }
     }
 
     public class Notification
@@ -268,7 +268,7 @@ namespace Common
 
         public bool IsDefault()
         {
-            if (Latitude==0.0 && Longitude==0.0)
+            if (Latitude == 0.0 && Longitude == 0.0)
                 return false;
 
             return true;
@@ -288,7 +288,7 @@ namespace Common
     {
         public string id { get; set; } = string.Empty;
         public string deviceId { get; set; } = string.Empty;
-        
+
 
         public bool? isOnline { get; set; } = null;//if false, all other properties are not valid (=empty)
         public DateTime? onlineTimeStartUtc { get; set; } = null;//last time when device turned online
@@ -301,7 +301,7 @@ namespace Common
         public int? hygieneRemainingRestTime { get; set; } = null;//seconds if intensive germ reduction rest phase is active
         public string? hygieneCurrentCycle { get; set; } = null;// current hygiene cycle if hygiene is active
 
-        public DateTime? hygieneLastMorningCycle {  get; set; } = null;//last completeted 'Morning Cycle' (UTC)
+        public DateTime? hygieneLastMorningCycle { get; set; } = null;//last completeted 'Morning Cycle' (UTC)
         public DateTime? hygieneLastEveningCycle { get; set; } = null;//last completeted 'Evening Cycle' (UTC)
         public DateTime? hygieneLastWeeklyCycle { get; set; } = null;//last completeted 'Weekly Cycle' (UTC)
         public DateTime? hygieneLastAfterTreatmentCycle { get; set; } = null;//last completeted 'After Treatment Cycle' (UTC)
@@ -327,7 +327,7 @@ namespace Common
 
         public List<Property>? extendedStatusFields { get; set; } = null;
 
-        public Location? deviceLocation {  get; set; } = null;
+        public Location? deviceLocation { get; set; } = null;
 
         public bool? isWaterBottleSystem { get; set; } = null;
 
@@ -515,15 +515,15 @@ namespace Common
                     anyValueChanged = true;
                 this.remotePin = entry.remotePin;
             }
-           /* 
-            if (copyNullValues && entry.extendedStatusFields == null)
-            {
-                if (this.extendedStatusFields != null)
-                    anyValueChanged = true;
+            /* 
+             if (copyNullValues && entry.extendedStatusFields == null)
+             {
+                 if (this.extendedStatusFields != null)
+                     anyValueChanged = true;
 
-                this.extendedStatusFields = null; //but why should we do this?
-            }
-            else*/
+                 this.extendedStatusFields = null; //but why should we do this?
+             }
+             else*/
             if (copyNullValues || entry.extendedStatusFields != null)
             {
                 if (copyNullValues && entry.extendedStatusFields == null)
@@ -576,7 +576,7 @@ namespace Common
     }
 
 
-    public class DeviceMessageEntry    
+    public class DeviceMessageEntry
     {
         public string text { get; set; } = string.Empty;
         public int id { get; set; }
@@ -597,15 +597,15 @@ namespace Common
     {
         MorningStart,
         MorningEnd,
-		EveningStart,
-		EveningEnd,
-		AfterTreatmentStart,
-		AfterTreatmentEnd,
+        EveningStart,
+        EveningEnd,
+        AfterTreatmentStart,
+        AfterTreatmentEnd,
         WeeklyStart,
         WeeklyRestPhaseStart,
         WeeklyRestPhaseEnd,
         WeeklyEnd,
-	}
+    }
 
     public class HygieneReportRawData
     {
@@ -613,35 +613,35 @@ namespace Common
         public HygieneEvent hygieneEvent { get; set; }
     }
 
-	public class HygieneReportData
-	{
-		public string id { get; set; } = string.Empty; //=deviceId_date (can be kept empty by device (server will overwrite/set this entry when storing data)
-		public string deviceId { get; set; } = string.Empty;
-		public DateTime date { get; set; }
+    public class HygieneReportData
+    {
+        public string id { get; set; } = string.Empty; //=deviceId_date (can be kept empty by device (server will overwrite/set this entry when storing data)
+        public string deviceId { get; set; } = string.Empty;
+        public DateTime date { get; set; }
         public string hash { get; set; } = string.Empty; //not a real hash, only the raw events (int value) as string
-		public bool MorningDone { get; set; }
-		public bool EveningDone { get; set; }
+        public bool MorningDone { get; set; }
+        public bool EveningDone { get; set; }
 
         public bool WeeklyRestphaseStarted { get; set; }
         public bool WeeklyDone { get; set; }
         public int AfterTreatmentCount { get; set; }
         public List<HygieneReportRawData> rawEventData { get; set; } = new List<HygieneReportRawData>();
-	}
+    }
 
-	public class HygieneHash
-	{
-		public DateTime date { get; set; }
-		public string hash { get; set; } = string.Empty;
-	}
+    public class HygieneHash
+    {
+        public DateTime date { get; set; }
+        public string hash { get; set; } = string.Empty;
+    }
 
-	public class HygieneSyncResult
+    public class HygieneSyncResult
     {
         public DateTime hygieneDate { get; set; }
         public bool synced { get; set; }
         public string errorText { get; set; } = string.Empty;
     }
 
-    public class Semesterbreak 
+    public class Semesterbreak
     {
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
@@ -665,10 +665,10 @@ namespace Common
     {
         public string HygieneRuleName { get; set; } = string.Empty;
         public HygieneRuleType HygieneRuleType { get; set; }
-		public bool? ValueBool { get; set; }
-		public int? ValueInt { get; set; }
-		public String? ValueText { get; set; } = String.Empty;
-	}
+        public bool? ValueBool { get; set; }
+        public int? ValueInt { get; set; }
+        public String? ValueText { get; set; } = String.Empty;
+    }
 
     public class HygienePlan
     {
@@ -676,20 +676,20 @@ namespace Common
         //general
         public string HygienePlanName { get; set; } = string.Empty;
 
-		//rules
-		public List<HygieneRule> HygieneRules { get; set; } = new List<HygieneRule>();
-		
-		//semester break
-		public List<Semesterbreak> SemesterBreaks { get; set; } = new List<Semesterbreak>();
+        //rules
+        public List<HygieneRule> HygieneRules { get; set; } = new List<HygieneRule>();
+
+        //semester break
+        public List<Semesterbreak> SemesterBreaks { get; set; } = new List<Semesterbreak>();
 
         //timeplan
-		public List<TimePlan> PlannedHygieneCycles { get; set; } = new List<TimePlan>(); //list with 7 elements for a week
+        public List<TimePlan> PlannedHygieneCycles { get; set; } = new List<TimePlan>(); //list with 7 elements for a week
 
-		public DateTime saveDateTime { get; set; }
+        public DateTime saveDateTime { get; set; }
 
-		public bool isEqual(HygienePlan other) 
+        public bool isEqual(HygienePlan other)
         {
-            if (other==null)
+            if (other == null)
                 return false;
 
             if (!HygienePlanName.Equals(other.HygienePlanName) ||
@@ -698,21 +698,21 @@ namespace Common
                 (PlannedHygieneCycles.Count != other.PlannedHygieneCycles.Count))
                 return false;
 
-            for(int i = 0;i< HygieneRules.Count;i++) 
+            for (int i = 0; i < HygieneRules.Count; i++)
             {
                 if (!HygieneRules[i].HygieneRuleName.Equals(other.HygieneRules[i].HygieneRuleName) ||
-					HygieneRules[i].HygieneRuleType != other.HygieneRules[i].HygieneRuleType ||
-					HygieneRules[i].ValueBool != other.HygieneRules[i].ValueBool ||
-					HygieneRules[i].ValueText != other.HygieneRules[i].ValueText ||
-					HygieneRules[i].ValueInt != other.HygieneRules[i].ValueInt
-					)
+                    HygieneRules[i].HygieneRuleType != other.HygieneRules[i].HygieneRuleType ||
+                    HygieneRules[i].ValueBool != other.HygieneRules[i].ValueBool ||
+                    HygieneRules[i].ValueText != other.HygieneRules[i].ValueText ||
+                    HygieneRules[i].ValueInt != other.HygieneRules[i].ValueInt
+                    )
                     return false;
             }
 
             for (int i = 0; i < SemesterBreaks.Count; i++)
             {
                 if (SemesterBreaks[i].Start != other.SemesterBreaks[i].Start ||
-					SemesterBreaks[i].End != other.SemesterBreaks[i].End) 
+                    SemesterBreaks[i].End != other.SemesterBreaks[i].End)
                     return false;
             }
 
@@ -722,8 +722,8 @@ namespace Common
                     !PlannedHygieneCycles[i].EveningHygiene.Equals(other.PlannedHygieneCycles[i].EveningHygiene) ||
                     !PlannedHygieneCycles[i].WeeklyHygiene.Equals(other.PlannedHygieneCycles[i].WeeklyHygiene))
                     return false;
-			}
-				return true;
+            }
+            return true;
         }
 
 
@@ -743,7 +743,7 @@ namespace Common
             }
             return plan;
         }
-    
+
 
         private static string NormalizeTime(string input)
         {
@@ -781,11 +781,11 @@ namespace Common
         public HygienePlan hygienePlan { get; set; } = new HygienePlan();
     }
 
-	public class DbDeviceHygienePlan
-	{
+    public class DbDeviceHygienePlan
+    {
         public string id { get; set; } = string.Empty; //=deviceId
-		public string hygienePlanId { get; set; } = string.Empty;
-	}
+        public string hygienePlanId { get; set; } = string.Empty;
+    }
 
     public class PortalUser
     {
@@ -843,8 +843,8 @@ namespace Common
 
         public void removeUnneccessaryData() //technician does not get more than necessary data from dentist office (only contact + status)
         {
-            if (officeData!=null)
-                officeData.LastLogIn = DateTime.MinValue; 
+            if (officeData != null)
+                officeData.LastLogIn = DateTime.MinValue;
             lastLoggedInContactId = string.Empty;
             favoriteContact = string.Empty;
             lastLogin = DateTime.MinValue;
@@ -892,7 +892,7 @@ namespace Common
     }
 
 
-    
+
     public class TuConfigEntry
     {
         public string ATINN { get; set; } = string.Empty;
