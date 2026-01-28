@@ -19,6 +19,8 @@ jobs:
                 token: ${{ github.token }}
                 submodules: recursive
                 fetch-depth: 0
+            - name: Static Code Analysis
+              run: dotnet format .\Common.csproj --verify-no-changes
 
             - name: Run tests
               run: dotnet test -c Release Common.Tests
